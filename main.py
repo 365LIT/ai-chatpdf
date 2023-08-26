@@ -58,6 +58,18 @@ if uploaded_file is not None:
     # Load it into Chroma
     db = Chroma.from_documents(texts, embeddings_model)
 
+    # Hander which receives Stream
+    from langchain.callbacks.base import BaseCallbackHandler
+
+    class StreamHandler(BaseCallbackHandler):
+        def __init__(self, container, initial_text=""):
+            self.container = container
+            self.text = initial_text
+
+        def on_llm_new_token(self, token: str, **kwargs) -> None:
+            self.text += token
+            self.container.markdown(self.text)
+
     # Question
     st.header("Asking questions to PDF!!")
     question = st.text_input('Write your question')
