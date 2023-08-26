@@ -75,9 +75,10 @@ if uploaded_file is not None:
     question = st.text_input('Write your question')
     if st.button('Ask your question'):
         with st.spinner('Coming up with the answer...'):
-            llm = ChatOpenAI(model_name="gpt-3.5-turbo",
-                             temperature=0, openai_api_key=openai_key)
+            chat_box = st.empty()
+            stream_hander = StreamHandler(chat_box)
+            llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0,
+                             openai_api_key=openai_key, streaming=True, callbacks=[stream_hander])
             qa_chain = RetrievalQA.from_chain_type(
                 llm, retriever=db.as_retriever())
-            result = qa_chain({"query": question})
-            st.write(result["result"])
+            qa_chain({"query": question})
