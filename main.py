@@ -1,4 +1,4 @@
-# import sys
+import sys
 import os
 import tempfile
 from dotenv import load_dotenv
@@ -11,8 +11,8 @@ from langchain.embeddings import OpenAIEmbeddings
 import streamlit as st
 from streamlit_extras.buy_me_a_coffee import button
 button(username="woohyeon", floating=True, width=221)
-# __import__('pysqlite3')
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+__import__('pysqlite3')
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 load_dotenv()
 
